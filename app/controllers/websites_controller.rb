@@ -27,16 +27,19 @@ class WebsitesController < ApplicationController
   def create
     @website = Website.new(website_params)
 
-    if @website.save
-      render json: @website
-    else
-      render json: @website.errors, status: :unprocessable_entity
+    if !@website.save
+      render json: @website.errors, status: :unprocessable_entity and return
     end
+
+    service = Parsing::WebsiteService.new(@website)
+    service.parse
+
+    render json: @website
   end
 
   def update
     @website = Website.find(params[:id])
-    
+
     if @website.update(website_params)
       render json: @website
     else

@@ -13,5 +13,7 @@ module RailsContentParser
     # -- all .rb files in that directory are automatically loaded.
 
     config.react.addons = true
+
+    config.eager_load_paths << Rails.root.join('lib')
   end
 end
