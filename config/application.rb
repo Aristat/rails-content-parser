@@ -13,6 +13,7 @@ module RailsContentParser
     # -- all .rb files in that directory are automatically loaded.
 
     config.react.addons = true
+    config.active_job.queue_adapter = :sidekiq
 
     config.eager_load_paths << Rails.root.join('lib')
   end

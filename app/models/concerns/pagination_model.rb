@@ -1,9 +1,11 @@
 module PaginationModel
   extend ActiveSupport::Concern
 
+  DEFAULT_PER_PAGE = 10
+
   module ClassMethods
     def per_page
-      10
+      DEFAULT_PER_PAGE
     end
 
     def pages(per_page = self.per_page)

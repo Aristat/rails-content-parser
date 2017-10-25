@@ -18,17 +18,16 @@ class WebsitesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        website_contents = WebsiteContent.
-          includes(:tag_name).
-          where(website_id: params[:id]).
-          paginate(page: page).
-          order(created_at: :desc)
+        website_contents = WebsiteContent.includes(:tag_name).where(website_id: params[:id])
 
         render json: {
           website: WebsiteSerializer.new(Website.find(params[:id])),
-          website_contents: ActiveModel::Serializer::CollectionSerializer.new(website_contents, each_serializer: WebsiteContentSerializer),
+          website_contents: ActiveModel::Serializer::CollectionSerializer.new(
+            website_contents.paginate(page: page).order(created_at: :desc),
+            each_serializer: WebsiteContentSerializer
+          ),
           page: page,
-          pages: WebsiteContent.where(website_id: params[:id]).pages
+          pages: website_contents.pages
         }
       end
     end
@@ -41,8 +40,7 @@ class WebsitesController < ApplicationController
       render json: @website.errors, status: :unprocessable_entity and return
     end
 
-    service = Parsing::WebsiteService.new(@website)
-    service.parse
+    ParsingJob.perform_later(@website.id)
 
     render json: @website
   end
