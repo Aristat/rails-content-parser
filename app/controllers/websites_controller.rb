@@ -3,8 +3,10 @@ class WebsitesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
+        websites = Website.paginate(page: page).order(created_at: :desc)
+
         render json: {
-          websites: Website.paginate(page: page).order(created_at: :desc),
+          websites: ActiveModel::Serializer::CollectionSerializer.new(websites, each_serializer: WebsiteSerializer),
           page: page,
           pages: Website.pages
         }
@@ -16,9 +18,17 @@ class WebsitesController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
+        website_contents = WebsiteContent.
+          includes(:tag_name).
+          where(website_id: params[:id]).
+          paginate(page: page).
+          order(created_at: :desc)
+
         render json: {
-          website: Website.find(params[:id]),
-          website_contents: WebsiteContent.where(website_id: params[:id]).as_json
+          website: WebsiteSerializer.new(Website.find(params[:id])),
+          website_contents: ActiveModel::Serializer::CollectionSerializer.new(website_contents, each_serializer: WebsiteContentSerializer),
+          page: page,
+          pages: WebsiteContent.where(website_id: params[:id]).pages
         }
       end
     end
@@ -57,9 +67,5 @@ class WebsitesController < ApplicationController
 
   def website_params
     params.require(:website).permit(:id, :url)
-  end
-
-  def page
-    params[:page] || 1
   end
 end
