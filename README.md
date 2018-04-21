@@ -1,5 +1,7 @@
-# Parser
+# Parse content
 How to use:
-- Add `RAILS_ENV=development` to env
-- Create TagNames(h1,h2,...) or run `rake db:seed`
-- Create parsing class in `/lib/parsing/tags/`
+- Run command or create TagNames 
+  ```
+  rake db:seed
+  ```
+- Create parsing class in `lib/parsing/tags/`
