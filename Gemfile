@@ -7,7 +7,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.1'
+gem 'rails', '~> 5.0.7'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -39,11 +39,11 @@ gem 'pg'
 # bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
 # paginate
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
+gem 'will_paginate', '~> 3.1.6'
+gem 'will_paginate-bootstrap', '~> 1.0.1'
 # application
 gem 'figaro'
-gem 'react-rails'
+gem 'react-rails', '= 2.2.1'
 gem 'faker'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'sidekiq'

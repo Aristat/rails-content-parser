@@ -1,19 +1,11 @@
 development:
   adapter: postgresql
-  port: 5432
-  host: 127.0.0.1
-  database: rails_content_parserd
-  username: postgres
-  password: 111
+  database: rails_content_parser_development
   encoding: utf8
   pool: 5
 
 test:
   adapter: postgresql
-  port: 5432
-  host: 127.0.0.1
-  database: rails_content_parsert
-  username: postgres
-  password: 111
+  database: rails_content_parser_test
   encoding: utf8
   pool: 5

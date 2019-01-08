@@ -3,18 +3,16 @@ module Parsing
     include Helper
 
     attr_reader :website
-    attr_reader :tag_names
 
     def initialize(website)
       @website = website
-      @tag_names = TagName.all
       generate_dictionary
     end
 
     def parse
-      nokogiri = Nokogiri::HTML(open(@website.url))
+      nokogiri = Nokogiri::HTML(open(website.url))
 
-      @tag_names.each do |tag_name|
+      tag_names.each do |tag_name|
         next unless tags_dictionaries.has_key?(tag_name.name)
 
         klass = tags_dictionaries[tag_name.name]
@@ -25,7 +23,7 @@ module Parsing
     private
 
     def generate_dictionary
-      @tag_names.each do |tag_name|
+      tag_names.each do |tag_name|
         klass = ['parsing/tags', tag_name.name].join(?/).classify.safe_constantize
         next if klass.nil?
 
